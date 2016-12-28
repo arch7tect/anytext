@@ -21,7 +21,7 @@ Content of **nodes**:
 |very."(),:;<>[]".VERY."very@\ "very".unusual@[192.168.0.100]|very."(),:;<>[]".VERY."very@\ "very".unusual|;[192.168.0.100];|
 
 
-Content of grammar file:
+Content of grammar file `email.json`:
 ```json
 {
   "baseName": "Email",
