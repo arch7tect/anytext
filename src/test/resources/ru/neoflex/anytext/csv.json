@@ -1,0 +1,62 @@
+{
+  "baseName": "CSV",
+  "parsers": [
+    {"name": "BackSlash", "baseName": "eq", "args": {"value": "\\\\"}},
+    {"name": "Quotation", "baseName": "eq", "args": {"value": "\\\""}},
+    {"name": "Delimiter", "baseName": "eq", "args": {"value": ";"}},
+    {"name": "EOL", "baseName": "or", "args": {"parsers": [
+      /*{"baseName": "eos"},*/
+      {"baseName": "eq", "args": {"value": "\\\r\\\n"}},
+      {"baseName": "eq", "args": {"value": "\\\r"}},
+      {"baseName": "eq", "args": {"value": "\\\n"}}
+    ]}},
+    {"name": "EOF", "baseName": "or", "args": {"parsers": [
+      {"baseName": "Delimiter"},
+      {"baseName": "EOL"}
+    ]}},
+    {"name": "CSVQuotedString", "baseName": "seq", "args": {"parsers":[
+      {"baseName": "Quotation"},
+      {"name": "CSVString", "baseName": "repeat", "args": {"min": 0, "parser": {"baseName": "or", "args": {"parsers": [
+        {"baseName": "seq", "args": {"parsers":[
+          {"baseName": "BackSlash"},
+          {"baseName": "BackSlash"}
+        ]}},
+        {"baseName": "seq", "args": {"parsers":[
+          {"baseName": "BackSlash"},
+          {"baseName": "Quotation"}
+        ]}},
+        {"baseName": "not", "args": { "parser": {"baseName": "EOF"}}}
+      ]}}}},
+      {"baseName": "Quotation"}
+    ]}},
+    {"name": "CSVString", "baseName": "not", "args": {"max": -1, "parser": {"baseName": "EOF"}}},
+    {"name": "CSVField", "baseName": "or", "args": {"parsers": [
+      {"baseName": "CSVQuotedString"},
+      {"baseName": "CSVString"}
+    ]}},
+    {"name": "CSVRow", "baseName": "seq", "args": {"parsers":[
+      {"baseName": "CSVField"},
+      {"baseName": "last", "args": {"parser": {"baseName": "repeat", "args": {"min": 0, "parser": {"baseName": "seq", "args": {"parsers": [
+        {"baseName": "Delimiter"},
+        {"baseName": "CSVField"}
+      ]}}}}}},
+      {"baseName": "EOL"}
+    ]}},
+    {"name": "CSVRows", "baseName": "repeat", "args": {"parser":
+      {"baseName": "CSVRow"}
+    }},
+    {"name": "CSV", "baseName": "last", "args": {"parser":
+      {"baseName": "CSVRows"}
+    }}
+  ],
+  "emitters": [
+    {
+      "name": "CSV",
+      "parser": "CSV",
+      "rowName": "CSVRow",
+      "columns": [
+        {"columnName": "CSVString", "index": -1}
+      ]
+    }
+  ]
+}
