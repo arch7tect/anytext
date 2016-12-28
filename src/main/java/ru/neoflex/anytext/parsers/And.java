@@ -42,13 +42,11 @@ public class And extends ParserListWrapperBase {
                     return;
                 }
                 else if (currentNode.getContent().length() > node.getContent().length()) {
-                    currentNode.setCutoff(true);
                     return;
                 }
                 currentNode.getChildren().add(node);
                 if (currentNode.getChildren().size() >= getWrappedList().size()) {
                     And.this.consume(currentNode.copy(), rest, consumer);
-                    currentNode.setCutoff(true);
                 }
                 else {
                     feed(currentNode, data, consumer);

@@ -44,9 +44,6 @@ public class Set extends ParserBase {
             if (i >= min) {
                 Node node = new Node(this, parent, data.subSequence(0, i));
                 consume(node, data.subSequence(i, data.length()), consumer);
-                if (node.isCutoff()) {
-                    break;
-                }
             }
         }
     }

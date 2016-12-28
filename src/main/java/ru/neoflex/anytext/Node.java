@@ -19,7 +19,6 @@ public class Node {
     private Parser emitter;
     private CharSequence content;
     private Node parent;
-    private boolean cutoff = false;
 
     private ELContext elContext;
     private static ExpressionFactory expressionFactory;
@@ -86,16 +85,6 @@ public class Node {
             return getName();
         }
         return getParent().getName() + "/" + getName();
-    }
-    public boolean isCutoff() {
-        return cutoff;
-    }
-
-    public void setCutoff(boolean cutoff) {
-        this.cutoff = cutoff;
-        for (Node node: getChildren()) {
-            node.setCutoff(cutoff);
-        }
     }
 
     public<T> T eval(Object expression, Class<T> type, Object def) {

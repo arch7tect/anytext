@@ -28,7 +28,6 @@ public class First extends ParserWrapperBase {
                 if (currentNode.getChildren().size() == 0) {
                     currentNode.getChildren().add(node);
                     First.this.consume(currentNode.copyNormalize(), rest, consumer);
-                    parent.setCutoff(true);
                 }
             }
         });

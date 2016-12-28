@@ -35,9 +35,6 @@ public class Any extends ParserBase {
         for (int i = min; i <= data.length() && (max < 0 || i <= max); ++i) {
             Node node = new Node(this, parent, data.subSequence(0, i));
             consume(node, data.subSequence(i, data.length()), consumer);
-            if (node.isCutoff()) {
-                break;
-            }
         }
     }
 }
