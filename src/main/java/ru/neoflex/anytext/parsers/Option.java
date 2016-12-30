@@ -22,14 +22,16 @@ public class Option extends ParserWrapperBase {
 
     public void feed(Node parent, CharSequence data, final Consumer consumer) {
         final Node currentNode = new Node(this, parent, "");
-        getWrapped().init(currentNode);
-        getWrapped().feed(currentNode, data, new Consumer() {
-            public void consume(Node node, CharSequence rest) {
-                currentNode.getChildren().add(node);
-                Option.this.consume(currentNode.copyNormalize(), rest, consumer);
-                currentNode.getChildren().clear();
-            }
-        });
-        consume(currentNode, data, consumer);
+        if (consume(currentNode, data, consumer)) {
+            getWrapped().init(currentNode);
+            getWrapped().feed(currentNode, data, new Consumer() {
+                public boolean consume(Node node, CharSequence rest) {
+                    currentNode.getChildren().add(node);
+                    Option.this.consume(currentNode.copyNormalize(), rest, consumer);
+                    currentNode.getChildren().clear();
+                    return true;
+                }
+            });
+        }
     }
 }

@@ -34,11 +34,12 @@ public class Or extends ParserListWrapperBase {
             final Node currentNode = new Node(this, parent, "");
             parser.init(currentNode);
             parser.feed(currentNode, data, new Consumer() {
-                public void consume(Node node, CharSequence rest) {
+                public boolean consume(Node node, CharSequence rest) {
                     currentNode.getChildren().add(node);
                     ++count[0];
-                    Or.this.consume(currentNode.copyNormalize(), rest, consumer);
+                    boolean cont = Or.this.consume(currentNode.copyNormalize(), rest, consumer);
                     currentNode.getChildren().clear();
+                    return cont;
                 }
             });
             if (reduced && count[0] > 0) {

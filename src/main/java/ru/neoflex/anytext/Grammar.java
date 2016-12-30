@@ -76,8 +76,9 @@ public class Grammar {
     public List<Node> parse(String baseName, Map<String, Object> args, CharSequence data) {
         final List<Node> result = new ArrayList<Node>();
         feed(baseName, args, data, new Consumer() {
-            public void consume(Node node, CharSequence rest) {
+            public boolean consume(Node node, CharSequence rest) {
                 result.add(node);
+                return true;
             }
         });
         return result;
@@ -119,8 +120,9 @@ public class Grammar {
 
         public void feed(Map<String, Object> args, CharSequence data, final Walker<List> walker) {
             grammar.feed(parser, args, data, new Consumer() {
-                public void consume(Node node, CharSequence rest) {
+                public boolean consume(Node node, CharSequence rest) {
                     collectRows(node, walker);
+                    return true;
                 }
             });
         }

@@ -32,9 +32,10 @@ public class Any extends ParserBase {
     }
 
     public void feed(Node parent, CharSequence data, Consumer consumer) {
-        for (int i = min; i <= data.length() && (max < 0 || i <= max); ++i) {
+        boolean cont = true;
+        for (int i = min; i <= data.length() && (max < 0 || i <= max) && cont; ++i) {
             Node node = new Node(this, parent, data.subSequence(0, i));
-            consume(node, data.subSequence(i, data.length()), consumer);
+            cont = consume(node, data.subSequence(i, data.length()), consumer);
         }
     }
 }

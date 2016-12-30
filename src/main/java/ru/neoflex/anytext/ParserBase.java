@@ -39,13 +39,13 @@ public abstract class ParserBase implements Parser {
         checkExpr = (String) getArgs().get("check");
     }
 
-    public void consume(Node node, CharSequence rest, Consumer consumer) {
+    public boolean consume(Node node, CharSequence rest, Consumer consumer) {
         if (checkExpr != null) {
             if (!node.eval(checkExpr, Boolean.class)) {
-                return;
+                return true;
             }
         }
-        consumer.consume(node, rest);
+        return consumer.consume(node, rest);
     }
 
     public String toString() {

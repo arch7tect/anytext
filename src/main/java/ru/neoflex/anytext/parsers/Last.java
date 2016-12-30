@@ -24,9 +24,10 @@ public class Last extends ParserWrapperBase {
         final Node currentNode = new Node(this, parent, "");
         getWrapped().init(currentNode);
         getWrapped().feed(currentNode, data, new Consumer() {
-            public void consume(Node node, CharSequence rest) {
-            currentNode.getChildren().clear();
-            currentNode.getChildren().add(node);
+            public boolean consume(Node node, CharSequence rest) {
+                currentNode.getChildren().clear();
+                currentNode.getChildren().add(node);
+                return true;
             }
         });
         Node result = currentNode.copyNormalize();

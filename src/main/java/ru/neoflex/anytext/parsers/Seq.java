@@ -34,7 +34,7 @@ public class Seq extends ParserListWrapperBase {
         Parser parser = getWrappedList().get(currentNode.getChildren().size());
         parser.init(currentNode);
         parser.feed(currentNode, data, new Consumer() {
-            public void consume(Node node, CharSequence rest) {
+            public boolean consume(Node node, CharSequence rest) {
                 currentNode.getChildren().add(node);
                 if (currentNode.getChildren().size() >= getWrappedList().size()) {
                     Seq.this.consume(currentNode.copyNormalize(), rest, consumer);
@@ -43,6 +43,7 @@ public class Seq extends ParserListWrapperBase {
                     feed(currentNode, rest, consumer);
                 }
                 currentNode.getChildren().remove(currentNode.getChildren().size() - 1);
+                return true;
             }
         });
     }

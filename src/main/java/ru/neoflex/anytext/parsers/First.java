@@ -24,11 +24,12 @@ public class First extends ParserWrapperBase {
         final Node currentNode = new Node(this, parent, "");
         getWrapped().init(currentNode);
         getWrapped().feed(currentNode, data, new Consumer() {
-            public void consume(Node node, CharSequence rest) {
+            public boolean consume(Node node, CharSequence rest) {
                 if (currentNode.getChildren().size() == 0) {
                     currentNode.getChildren().add(node);
                     First.this.consume(currentNode.copyNormalize(), rest, consumer);
                 }
+                return false;
             }
         });
     }

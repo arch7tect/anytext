@@ -20,16 +20,16 @@
     {"name": "EnNumLetter", "baseName": "or", "args": {"parsers":[
       {"baseName": "EnLetter"}, {"baseName": "Digit"}]}
     },
-    {"name": "EnNumString", "baseName": "last", "args": {"parser": {"baseName": "repeat", "args": {"parser":
+    {"name": "EnNumString", "baseName": "repeat", "args": {"greedy": true, "parser":
       {"baseName": "EnNumLetter"}
-    }}}},
+    }},
     {"name": "EmailNameLetter", "baseName": "or", "args": {"parsers":[
       {"baseName": "EnNumLetter"},
       {"baseName": "set", "args": {"chars": "!#$%&'*+-/=?^_`{|}~"}}
     ]}},
     {"name": "EmailQuotedString", "baseName": "seq", "args": {"parsers":[
       {"baseName": "Quotation"},
-      {"baseName": "last", "args": {"parser": {"baseName": "repeat", "args": { "min": 0, "parser":
+      {"baseName": "repeat", "args": { "min": 0, "greedy": true, "parser":
         {"baseName": "or", "args": {"parsers": [
           {"baseName": "EmailNameLetter"},
           {"baseName": "set", "args": {"chars": "(),:;<>@[]"}},
@@ -46,12 +46,12 @@
             {"baseName": "Quotation"}
           ]}}
         ]}}
-      }}}},
+      }},
       {"baseName": "Quotation"}
     ]}},
     {"name": "EmailNamePart", "baseName": "or", "args": {"parsers":[
       {"baseName": "EmailQuotedString"},
-      {"baseName": "last", "args": {"parser": {"baseName": "repeat", "args": { "min": 0, "parser": {"baseName": "EmailNameLetter"}}}}}
+      {"baseName": "repeat", "args": { "greedy": true, "parser": {"baseName": "EmailNameLetter"}}}
     ]}},
     {"name": "EmailName", "baseName": "seq", "args": {"parsers":[
       {"baseName": "EmailNamePart"},

@@ -29,24 +29,23 @@
       ]}}}},
       {"baseName": "Quotation"}
     ]}},
-    {"name": "CSVString", "baseName": "not", "args": {"max": -1, "parser": {"baseName": "EOF"}}},
+    {"name": "CSVString", "baseName": "not", "args": {"max": -1, "greedy": true, "parser":
+      {"baseName": "EOF"}
+    }},
     {"name": "CSVField", "baseName": "or", "args": {"parsers": [
       {"baseName": "CSVQuotedString"},
       {"baseName": "CSVString"}
     ]}},
     {"name": "CSVRow", "baseName": "seq", "args": {"parsers":[
       {"baseName": "CSVField"},
-      {"baseName": "last", "args": {"parser": {"baseName": "repeat", "args": {"min": 0, "parser": {"baseName": "seq", "args": {"parsers": [
+      {"baseName": "repeat", "args": {"min": 0, "greedy": true, "parser": {"baseName": "seq", "args": {"parsers": [
         {"baseName": "Delimiter"},
         {"baseName": "CSVField"}
-      ]}}}}}},
+      ]}}}},
       {"baseName": "EOL"}
     ]}},
-    {"name": "CSVRows", "baseName": "repeat", "args": {"parser":
+    {"name": "CSV", "baseName": "repeat", "args": {"greedy": true, "parser":
       {"baseName": "CSVRow"}
-    }},
-    {"name": "CSV", "baseName": "last", "args": {"parser":
-      {"baseName": "CSVRows"}
     }}
   ],
   "emitters": [

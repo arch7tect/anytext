@@ -37,13 +37,14 @@ public class Set extends ParserBase {
     }
 
     public void feed(Node parent, CharSequence data, Consumer consumer) {
-        for (int i = 1; i <= data.length() && (max < 0 || i <= max); ++i) {
+        boolean cont = true;
+        for (int i = 1; i <= data.length() && (max < 0 || i <= max) && cont; ++i) {
             if (!set.contains(data.charAt(i - 1))) {
                 break;
             }
             if (i >= min) {
                 Node node = new Node(this, parent, data.subSequence(0, i));
-                consume(node, data.subSequence(i, data.length()), consumer);
+                cont = consume(node, data.subSequence(i, data.length()), consumer);
             }
         }
     }

@@ -34,15 +34,15 @@ public class And extends ParserListWrapperBase {
         Parser parser = getWrappedList().get(currentNode.getChildren().size());
         parser.init(currentNode);
         parser.feed(currentNode, data, new Consumer() {
-            public void consume(Node node, CharSequence rest) {
+            public boolean consume(Node node, CharSequence rest) {
                 if (currentNode.getChildren().size() == 0) {
                     currentNode.setContent(node.getContent());
                 }
                 else if (currentNode.getContent().length() < node.getContent().length()) {
-                    return;
+                    return true;
                 }
                 else if (currentNode.getContent().length() > node.getContent().length()) {
-                    return;
+                    return false;
                 }
                 currentNode.getChildren().add(node);
                 if (currentNode.getChildren().size() >= getWrappedList().size()) {
@@ -52,6 +52,7 @@ public class And extends ParserListWrapperBase {
                     feed(currentNode, data, consumer);
                 }
                 currentNode.getChildren().remove(currentNode.getChildren().size() - 1);
+                return true;
             }
         });
     }
