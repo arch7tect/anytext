@@ -45,16 +45,16 @@ Content of grammar file `email.json`:
     {"name": "EnNumLetter", "baseName": "or", "args": {"parsers":[
       {"baseName": "EnLetter"}, {"baseName": "Digit"}]}
     },
-    {"name": "EnNumString", "baseName": "last", "args": {"parser": {"baseName": "repeat", "args": {"parser":
+    {"name": "EnNumString", "baseName": "repeat", "args": {"greedy": true, "parser":
       {"baseName": "EnNumLetter"}
-    }}}},
+    }},
     {"name": "EmailNameLetter", "baseName": "or", "args": {"parsers":[
       {"baseName": "EnNumLetter"},
       {"baseName": "set", "args": {"chars": "!#$%&'*+-/=?^_`{|}~"}}
     ]}},
     {"name": "EmailQuotedString", "baseName": "seq", "args": {"parsers":[
       {"baseName": "Quotation"},
-      {"baseName": "last", "args": {"parser": {"baseName": "repeat", "args": { "min": 0, "parser":
+      {"baseName": "repeat", "args": { "min": 0, "greedy": true, "parser":
         {"baseName": "or", "args": {"parsers": [
           {"baseName": "EmailNameLetter"},
           {"baseName": "set", "args": {"chars": "(),:;<>@[]"}},
@@ -71,12 +71,12 @@ Content of grammar file `email.json`:
             {"baseName": "Quotation"}
           ]}}
         ]}}
-      }}}},
+      }},
       {"baseName": "Quotation"}
     ]}},
     {"name": "EmailNamePart", "baseName": "or", "args": {"parsers":[
       {"baseName": "EmailQuotedString"},
-      {"baseName": "last", "args": {"parser": {"baseName": "repeat", "args": { "min": 0, "parser": {"baseName": "EmailNameLetter"}}}}}
+      {"baseName": "repeat", "args": { "greedy": true, "parser": {"baseName": "EmailNameLetter"}}}
     ]}},
     {"name": "EmailName", "baseName": "seq", "args": {"parsers":[
       {"baseName": "EmailNamePart"},
@@ -99,9 +99,9 @@ Content of grammar file `email.json`:
         {"baseName": "HostName"}
       ]}}}}
     ]}},
-    {"name": "IPDigitsGroup", "baseName": "last", "args": {"check": "${node.asInteger() < 256}", "parser":
-      {"baseName": "repeat", "args": {"min": 1, "max": 3, "parser": {"baseName": "Digit"}}}
-    }},
+    {"name": "IPDigitsGroup", "baseName": "repeat", "args": {
+      "min": 1, "max": 3, "greedy": true, "check": "${node.asInteger() < 256}", "parser": {"baseName": "Digit"}}
+    },
     {"name": "IPAddress", "baseName": "seq", "args": {"parsers":[
       {"baseName": "IPDigitsGroup"}, {"baseName": "Dot"},
       {"baseName": "IPDigitsGroup"}, {"baseName": "Dot"},
