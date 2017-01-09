@@ -1,6 +1,6 @@
 # anytext
 Simple but flexible text parsing library. 
-Combine atomic parsers to create complex text parsers.
+Combine [atomic parsers]([[AtomicParsers]]) to create complex text parsers.
 
 Simple use:
 ```java
